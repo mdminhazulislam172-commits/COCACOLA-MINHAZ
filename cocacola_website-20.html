@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#176b4d">
+<meta name="description" content="Dhaka - Rabbit Traders মেমো তৈরি, ছবি ডাউনলোড এবং PDF প্রিন্ট">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<title>কোকাকোলা ওয়েবসাইট</title>
+<style>
+:root{--ink:#17211d;--line:#aeb8b2;--green:#176b4d;--pale:#edf6f0}
+*{box-sizing:border-box}
+body{margin:0;background:#edf0ed;color:var(--ink);font-family:Arial,"Noto Sans Bengali","Nirmala UI",sans-serif}
+.toolbar{position:sticky;top:0;z-index:5;background:#fff;padding:10px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;box-shadow:0 2px 8px #0001}
+button{border:1px solid #b8c8bf;border-radius:8px;padding:10px 14px;background:#f3f8f4;color:#15583f;font-weight:700;font-size:15px;cursor:pointer}
+button.primary{background:var(--green);color:white;border-color:var(--green)}
+.sheet{background:#fff;max-width:1000px;width:calc(100% - 24px);margin:18px auto;padding:22px 26px;box-shadow:0 2px 14px #0001;border:1px solid #d9dfda}
+.sheet.active-sheet{outline:2px solid #176b4d;outline-offset:2px}
+.shopname{width:100%;border:0;border-bottom:1px solid var(--line);font-size:25px;font-weight:700;text-align:center;padding:6px;margin-bottom:14px;outline-color:var(--green)}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:9px 22px;margin-bottom:15px}
+.field{display:flex;align-items:center;gap:8px;min-width:0}
+.field label{white-space:nowrap;font-size:14px}
+input{font:inherit;min-width:0;border:0;border-bottom:1px solid var(--line);padding:7px 4px;background:transparent;width:100%;outline-color:var(--green)}
+input::placeholder{color:#929b95}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;table-layout:fixed;font-size:14px}
+th,td{border:1px solid #9ca9a1;padding:6px 5px;text-align:center}
+th{background:var(--pale);font-weight:700}
+td input{width:100%;text-align:center;border:0;padding:7px 1px}
+td.name input{text-align:left}
+th:nth-child(1){width:7%} th:nth-child(2){width:39%} th:nth-child(3){width:19%} th:nth-child(4){width:13%} th:nth-child(5){width:22%}
+.below{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-top:14px}
+.signatures{display:flex;gap:28px;flex:1;margin-top:22px}
+.sig{flex:1;text-align:center;font-size:14px}
+.sigline{border-top:1px solid #7f8983;padding-top:6px}
+.totals{min-width:235px;border:1px solid #b7c9be;border-radius:6px;overflow:hidden}
+.totalrow{display:flex;justify-content:space-between;gap:20px;padding:9px 12px;border-bottom:1px solid #dce5df}
+.totalrow:last-child{border:0;background:var(--pale);font-weight:700;font-size:18px}
+.totalrow strong{white-space:nowrap}
+@media(max-width:600px){.sheet{width:calc(100% - 10px);margin:6px auto;padding:13px 10px}.shopname{font-size:21px}.meta{grid-template-columns:1fr;gap:6px}.below{flex-direction:column}.totals{width:100%}.signatures{width:100%;gap:15px;margin-top:12px}table{min-width:570px}.toolbar button{font-size:13px;padding:9px}}
+@media print{@page{size:auto;margin:7mm}body{background:#fff}.toolbar,.no-print{display:none!important}.sheet{width:100%;max-width:none;margin:0;padding:0;border:0;box-shadow:none}.shopname{font-size:20px}input{color:#000}th{background:#edf6f0!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}tr{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button class="primary" id="addBtn">＋ প্রোডাক্ট যুক্ত করুন</button>
+  <button class="primary" id="addShopBtn">＋ দোকান অ্যাড</button>
+  <button id="printBtn">মেমো প্রিন্ট / PDF</button>
+  <button class="primary" id="downloadImageBtn">মেমো ছবি ডাউনলোড</button>
+  <button id="installBtn" hidden>অ্যাপ ইনস্টল করুন</button>
+  <button id="newBtn">নতুন মেমো</button>
+  <button id="customBtn">লেখা কাস্টমাইজ করুন</button>
+</div>
+<main class="sheet">
+  <div class="shopname" id="shopName" aria-label="প্রতিষ্ঠানের নাম" contenteditable="true" role="textbox" spellcheck="false">Dhaka - Rabbit Traders</div>
+  <div id="distributorAddress" aria-label="ডিস্ট্রিবিউটরের ঠিকানা" contenteditable="true" role="textbox" spellcheck="false" style="text-align:center;border-bottom:1px solid var(--line);font-size:14px;margin:-8px auto 14px;padding:5px;width:100%">119, Central Bashabo, Shabujbag, Dhaka-1214</div>
+  <section class="meta">
+    <div class="field"><label id="memoNoLabel">মেমো নম্বর:</label><input id="memoNo" placeholder="মেমো নম্বর"></div>
+    <div class="field"><label id="dateLabel">তারিখ:</label><input id="date" type="date"></div>
+    <div class="field"><label id="customerLabel">গ্রাহকের নাম:</label><input placeholder="গ্রাহকের নাম লিখুন"></div>
+    <div class="field"><label id="mobileLabel">মোবাইল নম্বর:</label><input type="tel" placeholder="মোবাইল নম্বর লিখুন"></div>
+  </section>
+  <div class="tablewrap">
+  <table id="items">
+    <thead><tr><th id="serialHead">ক্রমিক</th><th id="productHead">প্রোডাক্টের নাম</th><th id="priceHead">মূল দাম (টাকা)</th><th id="qtyHead">পরিমাণ</th><th id="totalHead">মোট মূল্য (টাকা)</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  </div>
+  <div class="below">
+    <div class="signatures">
+      <div class="sig"><div style="height:26px"></div><div class="sigline" id="buyerSign">ক্রেতার স্বাক্ষর</div></div>
+      <div class="sig"><div style="height:26px"></div><div class="sigline" id="sellerSign">বিক্রেতার স্বাক্ষর</div></div>
+    </div>
+    <div class="totals">
+      <div class="totalrow"><span id="qtyTotalLabel">মোট পরিমাণ:</span><strong id="totalQty">১</strong></div>
+      <div class="totalrow"><span id="grandLabel">সর্বমোট টাকা:</span><strong>৳ <span id="grand">0.00</span></strong></div>
+    </div>
+  </div>
+</main>
+<dialog id="customDialog" style="border:1px solid #ccd7cf;border-radius:12px;max-width:540px;width:calc(100% - 24px);padding:18px">
+ <form method="dialog" id="customForm">
+  <h3 style="margin-top:0">মেমোর লেখা কাস্টমাইজ করুন</h3>
+  <p style="font-size:13px;color:#58655d">এখানে লেখা বদলালে মেমোতে সেই লেখা দেখা যাবে।</p>
+  <div id="customFields" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+   <button type="button" id="resetCustom">ডিফল্ট লেখা</button>
+   <button type="button" id="saveCustom" class="primary">লেখা সংরক্ষণ</button>
+   <button type="button" id="closeCustom">বন্ধ</button>
+  </div>
+ </form>
+</dialog>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
+<script>
+const firstSheet=document.querySelector('.sheet');
+let activeSheet=firstSheet;
+const defaults={
+ addBtn:'＋ প্রোডাক্ট যুক্ত করুন',addShopBtn:'＋ দোকান অ্যাড',printBtn:'মেমো প্রিন্ট / PDF',downloadImageBtn:'সব মেমো ছবি ডাউনলোড',newBtn:'নতুন মেমো',customBtn:'লেখা কাস্টমাইজ করুন',
+ memoNoLabel:'মেমো নম্বর:',dateLabel:'তারিখ:',customerLabel:'গ্রাহকের নাম:',mobileLabel:'মোবাইল নম্বর:',
+ serialHead:'ক্রমিক',productHead:'প্রোডাক্টের নাম',priceHead:'মূল দাম (টাকা)',qtyHead:'পরিমাণ',totalHead:'মোট মূল্য (টাকা)',
+ buyerSign:'ক্রেতার স্বাক্ষর',sellerSign:'বিক্রেতার স্বাক্ষর',qtyTotalLabel:'মোট পরিমাণ:',grandLabel:'সর্বমোট টাকা:'
+};
+const editableLabels={
+ shopName:'উপরের নাম / শিরোনাম',distributorAddress:'ডিস্ট্রিবিউটরের ঠিকানা',memoNoLabel:'মেমো নম্বরের লেবেল',dateLabel:'তারিখের লেবেল',customerLabel:'গ্রাহকের নামের লেবেল',mobileLabel:'মোবাইল নম্বরের লেবেল',
+ serialHead:'ক্রমিক কলামের শিরোনাম',productHead:'প্রোডাক্টের নামের শিরোনাম',priceHead:'মূল দামের শিরোনাম',qtyHead:'পরিমাণের শিরোনাম',totalHead:'মোট মূল্যের শিরোনাম',
+ buyerSign:'ক্রেতার স্বাক্ষরের লেখা',sellerSign:'বিক্রেতার স্বাক্ষরের লেখা',qtyTotalLabel:'মোট পরিমাণের লেখা',grandLabel:'সর্বমোট টাকার লেখা',
+ addBtn:'প্রোডাক্ট যোগ করার বাটন',addShopBtn:'দোকান যোগ করার বাটনের লেখা',printBtn:'প্রিন্ট বাটনের লেখা',downloadImageBtn:'ছবি ডাউনলোড বাটনের লেখা',newBtn:'নতুন মেমো বাটনের লেখা'
+};
+function esc(s){return String(s).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');}
+function activate(sheet){if(!sheet)return;activeSheet=sheet;document.querySelectorAll('.sheet').forEach(s=>s.classList.toggle('active-sheet',s===sheet));}
+function addRow(sheet,name='',price='',qty='1'){
+ const rows=sheet.querySelector('#rows');const tr=document.createElement('tr');
+ tr.innerHTML=`<td class="serial"></td><td class="name"><input aria-label="প্রোডাক্টের নাম" placeholder="প্রোডাক্টের নাম লিখুন" value="${esc(name)}"></td><td><input aria-label="মূল দাম" inputmode="decimal" placeholder="0.00" value="${esc(price)}"></td><td><input aria-label="পরিমাণ" inputmode="decimal" placeholder="1" value="${esc(qty)}"></td><td class="lineTotal">0.00</td>`;
+ tr.querySelectorAll('input').forEach(i=>i.addEventListener('input',()=>calculate(sheet)));rows.appendChild(tr);renumber(sheet);calculate(sheet);
+}
+function renumber(sheet){[...sheet.querySelector('#rows').children].forEach((tr,i)=>tr.querySelector('.serial').textContent=(i+1).toLocaleString('bn-BD'));}
+function calculate(sheet){let grand=0,qtyTotal=0;[...sheet.querySelector('#rows').children].forEach(tr=>{const inputs=tr.querySelectorAll('input');const price=Math.max(0,parseFloat(inputs[1].value)||0);const qty=Math.max(0,parseFloat(inputs[2].value)||0);const total=price*qty;grand+=total;qtyTotal+=qty;tr.querySelector('.lineTotal').textContent=total.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});});sheet.querySelector('#grand').textContent=grand.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});sheet.querySelector('#totalQty').textContent=qtyTotal.toLocaleString('bn-BD');}
+function dateToday(sheet){const d=sheet.querySelector('#date');if(d)d.valueAsDate=new Date();}
+function addShop(){const sheet=firstSheet.cloneNode(true);sheet.classList.remove('active-sheet');sheet.querySelector('#rows').innerHTML='';sheet.querySelectorAll('input').forEach(i=>i.value='');sheet.querySelector('#shopName').textContent=firstSheet.querySelector('#shopName').textContent||'Dhaka - Rabbit Traders';sheet.querySelector('#distributorAddress').textContent=firstSheet.querySelector('#distributorAddress').textContent||'119, Central Bashabo, Shabujbag, Dhaka-1214';document.querySelector('main').appendChild(sheet);sheet.addEventListener('click',()=>activate(sheet));sheet.querySelectorAll('input').forEach(i=>i.addEventListener('focus',()=>activate(sheet)));addRow(sheet);dateToday(sheet);activate(sheet);saveDraft();sheet.scrollIntoView({behavior:'smooth',block:'start'});}
+function newMemo(){if(!confirm('এই মেমোটি খালি করে নতুন করে শুরু করবেন?'))return;const sheet=activeSheet;sheet.querySelectorAll('input').forEach(i=>i.value='');sheet.querySelector('#rows').innerHTML='';addRow(sheet);dateToday(sheet);saveDraft();}
+function openCustom(){const box=document.getElementById('customFields');box.innerHTML='';Object.entries(editableLabels).forEach(([id,label])=>{const wrap=document.createElement('label');wrap.style.fontSize='13px';wrap.textContent=label;const input=document.createElement('input');input.dataset.target=id;input.value=document.querySelector('.sheet #'+id)?.textContent||defaults[id]||'';input.style.display='block';input.style.width='100%';input.style.marginTop='4px';wrap.appendChild(input);box.appendChild(wrap);});document.getElementById('customDialog').showModal();}
+function applyCustom(id,value){if(['addBtn','addShopBtn','printBtn','downloadImageBtn','newBtn','customBtn'].includes(id)){const el=document.getElementById(id);if(el)el.textContent=value;return;}document.querySelectorAll('.sheet').forEach(sheet=>{const el=sheet.querySelector('#'+id);if(el)el.textContent=value;});}
+document.getElementById('addBtn').onclick=()=>{activate(activeSheet||document.querySelector('.sheet:last-of-type'));addRow(activeSheet);saveDraft();};
+document.getElementById('addShopBtn').onclick=addShop;
+document.getElementById('printBtn').onclick=()=>window.print();
+document.getElementById('downloadImageBtn').onclick=async()=>{if(typeof html2canvas!=='function'){alert('মেমো ছবি ডাউনলোড করতে ইন্টারনেট চালু করে পেজটি আবার খুলুন।');return;}const btn=document.getElementById('downloadImageBtn'),old=btn.textContent;btn.disabled=true;btn.textContent='ছবি তৈরি হচ্ছে…';try{let n=0;for(const sheet of document.querySelectorAll('.sheet')){n++;const canvas=await html2canvas(sheet,{scale:2,backgroundColor:'#ffffff',useCORS:true,onclone:doc=>{const target=doc.querySelectorAll('.sheet')[n-1];target.querySelectorAll('input').forEach(inp=>{const span=doc.createElement('span');span.textContent=inp.value||inp.placeholder||'';span.style.cssText='display:block;width:100%;min-height:28px;padding:7px 4px;border-bottom:1px solid #aeb8b2;text-align:'+(inp.closest('td.name')?'left':'center')+';font:inherit;white-space:pre-wrap;overflow-wrap:anywhere;color:#17211d;';inp.replaceWith(span);});target.classList.remove('active-sheet');}});const a=document.createElement('a');const memo=sheet.querySelector('#memoNo').value.trim();a.download='memo-'+n+(memo?'-'+memo.replace(/[^a-zA-Z0-9-_]/g,'_'):'')+'.png';a.href=canvas.toDataURL('image/png');document.body.appendChild(a);a.click();a.remove();}alert('প্রতিটি মেমোর ছবি PNG হিসেবে ডাউনলোডের জন্য তৈরি হয়েছে।');}catch(e){alert('ছবি তৈরি করা যায়নি। আবার চেষ্টা করুন।');}finally{btn.disabled=false;btn.textContent=old;}};
+document.getElementById('newBtn').onclick=newMemo;document.getElementById('customBtn').onclick=openCustom;document.getElementById('closeCustom').onclick=()=>document.getElementById('customDialog').close();
+document.getElementById('saveCustom').onclick=()=>{document.querySelectorAll('#customFields input').forEach(i=>applyCustom(i.dataset.target,i.value));document.getElementById('customDialog').close();saveDraft();};
+document.getElementById('resetCustom').onclick=()=>{Object.entries(defaults).forEach(([id,value])=>applyCustom(id,value));document.querySelectorAll('.sheet').forEach(s=>{s.querySelector('#shopName').textContent='Dhaka - Rabbit Traders';s.querySelector('#distributorAddress').textContent='119, Central Bashabo, Shabujbag, Dhaka-1214';});openCustom();};
+const SAVE_KEY='cocacolaMemoDraftV2';
+function saveDraft(){try{const data=[...document.querySelectorAll('.sheet')].map(sheet=>({shopName:sheet.querySelector('#shopName').textContent,address:sheet.querySelector('#distributorAddress').textContent,fields:[...sheet.querySelectorAll('.meta input')].map(i=>({placeholder:i.placeholder,value:i.value,type:i.type})),rows:[...sheet.querySelector('#rows').children].map(tr=>[...tr.querySelectorAll('input')].map(i=>i.value))}));localStorage.setItem(SAVE_KEY,JSON.stringify(data));}catch(e){}}
+function restoreDraft(){try{const raw=localStorage.getItem(SAVE_KEY);if(!raw)return;const data=JSON.parse(raw);if(!Array.isArray(data)||!data.length)return;if(!confirm('আগের মেমোগুলো পাওয়া গেছে। সেগুলো ফিরিয়ে আনবেন?'))return;document.querySelectorAll('.sheet:not(:first-child)').forEach(s=>s.remove());data.forEach((d,index)=>{const sheet=index===0?firstSheet:firstSheet.cloneNode(true);if(index>0){sheet.querySelector('#rows').innerHTML='';document.querySelector('main').appendChild(sheet);sheet.addEventListener('click',()=>activate(sheet));}sheet.querySelector('#shopName').textContent=d.shopName||'Dhaka - Rabbit Traders';sheet.querySelector('#distributorAddress').textContent=d.address||'119, Central Bashabo, Shabujbag, Dhaka-1214';const fields=[...sheet.querySelectorAll('.meta input')];(d.fields||[]).forEach((f,i)=>{if(fields[i])fields[i].value=f.value||'';});sheet.querySelector('#rows').innerHTML='';(d.rows||[]).forEach(r=>addRow(sheet,r[0]||'',r[1]||'',r[2]||'1'));if(!d.rows?.length)addRow(sheet);sheet.querySelectorAll('input').forEach(i=>i.addEventListener('focus',()=>activate(sheet)));});}catch(e){}}
+document.addEventListener('input',e=>{if(e.target.closest('.sheet')){const sheet=e.target.closest('.sheet');calculate(sheet);saveDraft();}});
+firstSheet.addEventListener('click',()=>activate(firstSheet));firstSheet.querySelectorAll('input').forEach(i=>i.addEventListener('focus',()=>activate(firstSheet)));
+restoreDraft();document.querySelectorAll('.sheet').forEach(s=>{if(!s.querySelector('#rows').children.length)addRow(s);if(!s.querySelector('#date').value)dateToday(s);});activate(document.querySelector('.sheet:last-of-type'));
+let installPrompt=null;window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();installPrompt=event;document.getElementById('installBtn').hidden=false;});document.getElementById('installBtn').onclick=async()=>{if(!installPrompt){alert('Chrome মেনু (⋮) থেকে “অ্যাপ ইনস্টল করুন” বা “Add to Home screen” বেছে নিন।');return;}installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;document.getElementById('installBtn').hidden=true;};if('serviceWorker'in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
+</script>
+</body>
+</html>
